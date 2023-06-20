@@ -5,7 +5,7 @@ import { injectable } from "inversify";
 @injectable()
 export default abstract class BaseRouter {
   abstract get routes(): SerializedRoute[];
-  public readonly router;
+  public readonly router: Router;
   public path = "";
 
   constructor() {
