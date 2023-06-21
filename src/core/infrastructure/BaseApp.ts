@@ -1,10 +1,10 @@
 import express from "express";
 import { inject, injectable } from "inversify";
-import { IInitializable, ILogger, ILoggerToken } from "../domain";
+import { IInitializable, ILogger, ILoggerToken, PortToken } from "../domain";
 
 @injectable()
 export default abstract class BaseApp implements IInitializable {
-  @inject("Port") private readonly port!: string;
+  @inject(PortToken) private readonly port!: string;
   @inject(ILoggerToken) private readonly logger!: ILogger;
 
   protected app: express.Application;
