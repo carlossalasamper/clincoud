@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { inject, injectable } from "inversify";
-import ILogger, { ILoggerToken } from "../../../common/domain/Ilogger";
+import ILogger, { ILoggerToken } from "../../../core/domain/Ilogger";
 import { DatabaseUriToken, IDatabaseService } from "../../domain";
 
 @injectable()

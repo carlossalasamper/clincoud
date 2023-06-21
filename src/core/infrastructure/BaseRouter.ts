@@ -1,6 +1,6 @@
 import { Router } from "express";
-import SerializedRoute from "./types/SerializedRoute";
 import { injectable } from "inversify";
+import { SerializedRoute } from ".";
 
 @injectable()
 export default abstract class BaseRouter {
