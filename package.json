@@ -1,7 +1,7 @@
 {
-  "name": "@gamesmayer/express-microservice",
+  "name": "@gamesmayer/express-kit",
   "version": "0.1.4",
-  "description": "GAMESMAYER Express kit to develop robust microservices at the speed of light.",
+  "description": "GAMESMAYER Express kit to develop robust applications at the speed of light.",
   "author": {
     "name": "Carlos Sala Samper"
   },
