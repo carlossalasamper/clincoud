@@ -13,8 +13,8 @@ export default abstract class BaseRouter {
   }
 
   public register() {
-    this.routes.forEach(({ path, method, handlers }) => {
-      this.router[method](path, ...handlers);
+    this.routes.forEach(({ path, method, handlers, errorHandlers }) => {
+      this.router[method](path, ...handlers, ...(errorHandlers ?? []));
     });
   }
 }

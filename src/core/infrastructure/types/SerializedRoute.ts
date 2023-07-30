@@ -1,7 +1,8 @@
-import { RequestHandler } from "express";
+import { ErrorRequestHandler, RequestHandler } from "express";
 
 export default interface SerializedRoute {
   path: string;
   method: "get" | "post" | "put" | "patch" | "delete";
   handlers: RequestHandler[];
+  errorHandlers?: ErrorRequestHandler[];
 }
