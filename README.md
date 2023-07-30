@@ -1,7 +1,7 @@
 # GAMESMAYER Express Microservice
 
 <p align="center">
-  <img src="./assets/images/gamesmayer-title.png?raw=true" style="max-width: 900px; width: 100%;" />
+  <img src="./assets/images/gamesmayer-logo.png?raw=true" style="max-width: 900px; width: 100%;" />
 </p>
 <p align="center" style="margin-top: 10px;">GAMESMAYER Express kit to develop robust microservices at the speed of light.</p>
 
