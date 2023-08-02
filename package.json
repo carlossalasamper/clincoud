@@ -18,7 +18,7 @@
     "prepare": "husky install",
     "lint": "eslint . --ext .ts",
     "test": "",
-    "build": "npx tsc"
+    "build": "tsc"
   },
   "dependencies": {},
   "devDependencies": {
