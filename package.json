@@ -1,6 +1,6 @@
 {
   "name": "@gamesmayer/express-kit",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "GAMESMAYER Express kit to develop robust applications at the speed of light.",
   "author": {
     "name": "Carlos Sala Samper"
@@ -20,11 +20,16 @@
     "test": "",
     "build": "tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.8.5",
+    "swagger-ui-express": "^5.0.0"
+  },
   "devDependencies": {
     "@gamesmayer/eslint-config": "^0.1.0",
+    "@types/cors": "^2.8.13",
     "@types/express": "4.17.17",
     "@types/express-serve-static-core": "4.17.22",
+    "@types/swagger-ui-express": "^4.1.3",
     "eslint": "^8.42.0",
     "express": "4.18.2",
     "husky": "^8.0.3",
