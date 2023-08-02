@@ -4,12 +4,10 @@ import {
   IDatabaseServiceToken,
   MongooseDatabaseService,
 } from "../database";
-import {
-  IConfigRepository,
+import IConfigRepository, {
   IConfigRepositoryToken,
-  ILogger,
-  ILoggerToken,
-} from "./domain";
+} from "./domain/IConfigRepository";
+import { ILogger, ILoggerToken } from "./domain/ILogger";
 import { Logger } from "./infrastructure";
 import LocalConfigRepository from "./infrastructure/LocalConfigRepository";
 import {

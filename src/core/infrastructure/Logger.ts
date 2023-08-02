@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 
 import { injectable } from "inversify";
-import { ILogger } from "../domain";
+import { ILogger } from "../domain/ILogger";
 
 @injectable()
 export default class Logger implements ILogger {

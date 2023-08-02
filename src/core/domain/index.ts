@@ -24,4 +24,5 @@ export {
   IConfigRepository,
   IConfigRepositoryToken,
 };
+
 export * from "./ILogger";

@@ -1,7 +1,8 @@
 import container from "./container";
 
-import "./core/CoreModule";
-
 export * from "./core";
 export * from "./database";
+
+import "./core/CoreModule";
+
 export { container };
