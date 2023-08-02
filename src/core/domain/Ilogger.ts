@@ -1,4 +1,4 @@
-export const ILoggerToken = Symbol.for("ILogger");
+export const ILoggerToken = Symbol();
 
 export default interface ILogger {
   get prefix(): string;

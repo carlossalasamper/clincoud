@@ -1,6 +1,7 @@
 import express from "express";
 import { inject, injectable } from "inversify";
-import { IInitializable, ILogger, ILoggerToken, PortToken } from "../domain";
+import { IInitializable, PortToken } from "../../common";
+import { ILogger, ILoggerToken } from "../domain";
 
 @injectable()
 export default abstract class BaseApp implements IInitializable {
