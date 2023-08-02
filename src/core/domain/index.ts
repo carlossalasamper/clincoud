@@ -9,7 +9,6 @@ import ErrorResponse from "./ErrorResponse";
 import HttpError from "./HttpError";
 import HttpStatusCode, { HttpStatusCodeName } from "./HttpStatusCode";
 import IConfigRepository, { IConfigRepositoryToken } from "./IConfigRepository";
-import ILogger, { ILoggerToken } from "./ILogger";
 
 export {
   API,
@@ -24,6 +23,5 @@ export {
   HttpStatusCodeName,
   IConfigRepository,
   IConfigRepositoryToken,
-  ILogger,
-  ILoggerToken,
 };
+export * from "./ILogger";

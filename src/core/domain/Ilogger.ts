@@ -1,6 +1,6 @@
 export const ILoggerToken = Symbol();
 
-export default interface ILogger {
+export interface ILogger {
   get prefix(): string;
   set prefix(value: string);
 
