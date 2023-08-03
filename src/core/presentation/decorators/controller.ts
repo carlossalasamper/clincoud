@@ -18,15 +18,17 @@ export default function controller(config: ControllerConfig) {
   ) => {
     injectable()(constructor);
 
-    container
-      .bind<Controller>(ControllerToken)
-      .to(constructor)
-      .inSingletonScope();
-
-    return class extends constructor {
+    const classExtended = class extends constructor {
       method = config.method.toLowerCase();
       api = config.api;
       path = config.path || "";
     };
+
+    container
+      .bind<Controller>(ControllerToken)
+      .to(classExtended)
+      .inSingletonScope();
+
+    return classExtended;
   };
 }
