@@ -16,13 +16,13 @@ export default function controller(config: ControllerConfig) {
   >(
     constructor: T
   ) => {
-    injectable()(constructor);
-
     const classExtended = class extends constructor {
       method = config.method.toLowerCase();
       api = config.api;
       path = config.path || "";
     };
+
+    injectable()(classExtended);
 
     container
       .bind<Controller>(ControllerToken)
