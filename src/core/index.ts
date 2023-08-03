@@ -6,10 +6,9 @@ export * from "./application";
 export * from "./infrastructure";
 export * from "./presentation";
 
-const boot = (app: BaseApp) => {
-  container.bind<BaseApp>(BaseApp).toConstantValue(app);
-
-  app.initialize();
+const boot = (App: typeof BaseApp) => {
+  container.bind<BaseApp>(App).toSelf().inSingletonScope();
+  container.get<BaseApp>(App).initialize();
 };
 
 export { boot };
