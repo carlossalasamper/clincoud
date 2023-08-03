@@ -7,3 +7,4 @@ export * from "./database";
 import "./core/CoreModule";
 
 export { container };
+export { registerControllers } from "./container";

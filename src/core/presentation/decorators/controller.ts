@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { injectable } from "inversify";
 import ControllerConfig from "../types/ControllerConfig";
-import { Controller, ControllerToken } from "../types";
-import container from "../../../container";
+import { Controller } from "../types";
 
 export default function controller(config: ControllerConfig) {
   return <
@@ -17,23 +15,14 @@ export default function controller(config: ControllerConfig) {
   >(
     constructor: T
   ) => {
-    const classExtended = class extends constructor {
+    injectable()(constructor);
+
+    return class extends constructor {
+      static config = config;
+
       method = config.method.toLowerCase();
       api = config.api;
       path = config.path || "";
     };
-
-    injectable()(classExtended);
-
-    console.log(
-      `Controller ${classExtended.name} registered for ${config.method} ${config.api}${config.path}`
-    );
-
-    container
-      .bind<Controller>(ControllerToken)
-      .to(classExtended)
-      .inSingletonScope();
-
-    return classExtended;
   };
 }
