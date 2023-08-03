@@ -38,7 +38,7 @@ export default abstract class BaseApp implements IInitializable {
     this.setup();
 
     this.app.listen(this.port, () => {
-      this.logger.info(`(Express) READY ON ${this.port}`);
+      this.logger.info(`App running on port :${this.port}`);
 
       this.onInitialized();
     });
