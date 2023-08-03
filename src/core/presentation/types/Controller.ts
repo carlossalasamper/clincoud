@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import ControllerConfig from "./ControllerConfig";
 import Middleware from "./Middleware";
 
-export const ControllerToken = Symbol();
+export const ControllerToken = Symbol("Controller");
 
 type Controller = {
   handler: RequestHandler;
