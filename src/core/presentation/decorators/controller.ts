@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { injectable } from "inversify";
 import ControllerConfig from "../types/ControllerConfig";
@@ -23,6 +24,10 @@ export default function controller(config: ControllerConfig) {
     };
 
     injectable()(classExtended);
+
+    console.log(
+      `Controller ${classExtended.name} registered for ${config.method} ${config.api}${config.path}`
+    );
 
     container
       .bind<Controller>(ControllerToken)
