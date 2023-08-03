@@ -3,7 +3,7 @@ import { injectable } from "inversify";
 import ControllerConfig from "../types/ControllerConfig";
 import { Controller } from "../types";
 
-export default function controller(config: ControllerConfig) {
+export default function controller({ method, api, path }: ControllerConfig) {
   return <
     T extends {
       new (...args: any[]): {
@@ -15,14 +15,20 @@ export default function controller(config: ControllerConfig) {
   >(
     constructor: T
   ) => {
+    const config = {
+      method: method.toLowerCase(),
+      api,
+      path: path || "",
+    };
     injectable()(constructor);
 
     return class extends constructor {
+      static controllerName = constructor.name;
       static config = config;
 
-      method = config.method.toLowerCase();
+      method = config.method;
       api = config.api;
-      path = config.path || "";
+      path = config.path;
     };
   };
 }
