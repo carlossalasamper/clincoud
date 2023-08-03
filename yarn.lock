@@ -39,15 +39,16 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.46.0.tgz#3f7802972e8b6fe3f88ed1aabc74ec596c456db6"
   integrity sha512-a8TLtmPi8xzPkCbp/OGFUo5yhRkHM2Ko9kOWP4znJr0WAhWyThaw3PnwX4vOTWOAMsV2uRt32PPDcEz63esSaA==
 
-"@gamesmayer/eslint-config@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@gamesmayer/eslint-config/0.1.0/944ac199dfc4c08b2a194dce37e1e66b6614e728#944ac199dfc4c08b2a194dce37e1e66b6614e728"
-  integrity sha512-SszPKAvW95V5MZXG3Jo5TUKXeDq2hRfMN8iFF+hciK18aQPNzWcr9on8CTKQ/l2wZ6fjJivt3tLQCdj9YggBug==
+"@gamesmayer/eslint-config@^0.1.2":
+  version "0.1.2"
+  resolved "https://npm.pkg.github.com/download/@gamesmayer/eslint-config/0.1.2/2f20210c70ade9d78e731a0e6c26f051554a5dd3#2f20210c70ade9d78e731a0e6c26f051554a5dd3"
+  integrity sha512-FcP4fUrED7tGuyWx1ehs76dNkkGZxu8dgtHdEthWyf0jgJl17mjsJkIff36Dv+xJJVf0gFyKJiAd7YcDwnMq4g==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^5.59.11"
     "@typescript-eslint/parser" "^5.59.11"
     eslint-config-google "^0.14.0"
     eslint-config-prettier "^8.8.0"
+    eslint-plugin-unused-imports "^3.0.0"
     prettier "^2.8.8"
 
 "@humanwhocodes/config-array@^0.11.10":
@@ -555,6 +556,18 @@ eslint-config-prettier@^8.8.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.9.0.tgz#094b6254b2804b0544f7cee535f802b6d29ee10b"
   integrity sha512-+sbni7NfVXnOpnRadUA8S28AUlsZt9GjgFvABIRL9Hkn8KqNzOp+7Lw4QWtrwn20KzU3wqu1QoOj2m+7rKRqkA==
+
+eslint-plugin-unused-imports@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-3.0.0.tgz#d25175b0072ff16a91892c3aa72a09ca3a9e69e7"
+  integrity sha512-sduiswLJfZHeeBJ+MQaG+xYzSWdRXoSw61DpU13mzWumCkR0ufD0HmO4kdNokjrkluMHpj/7PJeN35pgbhW3kw==
+  dependencies:
+    eslint-rule-composer "^0.3.0"
+
+eslint-rule-composer@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
+  integrity sha512-bt+Sh8CtDmn2OajxvNO+BX7Wn4CIWMpTRm3MaiKPCQcnnlm0CS2mhui6QaoeQugs+3Kj2ESKEEGJUdVafwhiCg==
 
 eslint-scope@^5.1.1:
   version "5.1.1"

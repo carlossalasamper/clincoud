@@ -13,7 +13,7 @@ type Controller = {
 type DecoratedController = Controller & {
   api: ControllerConfig["api"];
   method: "get" | "post" | "put" | "delete" | "patch";
-  path: string;
+  path?: string;
 };
 
 export default Controller;

@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
-import { z, ZodType, ZodTypeDef } from "zod";
+import { ZodType, ZodTypeDef } from "zod";
 
 export declare type TypedRequest<
   TParams extends ZodType<any, ZodTypeDef, any>,
   TQuery extends ZodType<any, ZodTypeDef, any>,
   TBody extends ZodType<any, ZodTypeDef, any>
-> = Request<z.infer<TParams>, any, z.infer<TBody>, z.infer<TQuery>>;
+> = Request<TParams, any, TBody, TQuery>;
 
-export declare type TypedRequestBody<
+export declare type BodyTypedRequest<
   TBody extends ZodType<any, ZodTypeDef, any>
-> = Request<ParamsDictionary, any, z.infer<TBody>, any>;
+> = Request<ParamsDictionary, any, TBody, any>;
 
-export declare type TypedRequestParams<
+export declare type ParamsTypedRequest<
   TParams extends ZodType<any, ZodTypeDef, any>
-> = Request<z.infer<TParams>, any, any, any>;
+> = Request<TParams, any, any, any>;
 
-export declare type TypedRequestQuery<
+export declare type QueryTypedRequest<
   TQuery extends ZodType<any, ZodTypeDef, any>
-> = Request<ParamsDictionary, any, any, z.infer<TQuery>>;
+> = Request<ParamsDictionary, any, any, TQuery>;
