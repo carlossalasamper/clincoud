@@ -11,7 +11,7 @@ const boot = <AppType extends BaseApp>(App: {
   new (...args: any[]): AppType;
 }) => {
   container.bind(App).toSelf().inSingletonScope();
-  container.get<BaseApp>(typeof App).initialize();
+  container.get(App).initialize();
 };
 
 export { boot };
