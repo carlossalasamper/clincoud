@@ -1,4 +1,4 @@
-import container from "../container";
+import container from "../ioc/container";
 import {
   IDatabaseService,
   IDatabaseServiceToken,

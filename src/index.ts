@@ -1,10 +1,6 @@
-import container from "./container";
-
 export * from "./common";
 export * from "./core";
 export * from "./database";
+export * from "./ioc";
 
 import "./core/CoreModule";
-
-export { container };
-export { registerControllers } from "./container";

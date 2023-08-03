@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { Container } from "inversify";
 import {
   AppApiConfig,
   AppConfig,
@@ -8,15 +7,14 @@ import {
   Controller,
   ControllerConfig,
   ControllerToken,
-} from "./core";
+} from "../core";
+import container from "./container";
 
-const container = new Container();
-
-export function registerControllers(
+const registerControllers = (
   controllerClasses: {
     new (...args: any[]): Controller;
   }[]
-) {
+) => {
   controllerClasses.forEach((controller) => {
     const { config } = controller as unknown as { config: ControllerConfig };
     const appConfig = container.get<AppConfig>(AppConfigToken);
@@ -31,6 +29,6 @@ export function registerControllers(
       .to(controller)
       .inSingletonScope();
   });
-}
+};
 
-export default container;
+export default registerControllers;
