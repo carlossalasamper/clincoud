@@ -1,23 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { Container } from "inversify";
-import {
-  Controller,
-  ControllerConfig,
-  ControllerToken,
-  DecoratedController,
-} from "./core";
+import { Controller, ControllerConfig, ControllerToken } from "./core";
 
 const container = new Container();
 
 export function registerControllers(
   controllerClasses: {
-    new (...args: any[]): DecoratedController;
-    config: ControllerConfig;
+    new (...args: any[]): Controller;
   }[]
 ) {
   controllerClasses.forEach((controller) => {
-    const { config } = controller;
+    const { config } = controller as unknown as { config: ControllerConfig };
 
     console.log(
       `Controller ${controller.name} registered for ${config.method} ${config.api}${config.path}`
