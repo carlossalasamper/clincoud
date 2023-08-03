@@ -32,11 +32,7 @@ export default abstract class BaseApp implements IInitializable {
   @inject(ProductionErrorMiddleware)
   private readonly productionErrorMiddleware!: ProductionErrorMiddleware;
 
-  protected app: express.Application;
-
-  constructor() {
-    this.app = express();
-  }
+  protected app: express.Application = express();
 
   public initialize(): void | Promise<void> {
     this.setup();
