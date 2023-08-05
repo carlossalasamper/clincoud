@@ -1,5 +1,5 @@
-<a href="#" target="_blank"><img src="https://img.shields.io/npm/v/clicoud.svg" alt="NPM Version" /></a>
-<a href="#" target="_blank"><img src="https://img.shields.io/npm/l/clincoud.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/package/clincoud" target="_blank"><img src="https://img.shields.io/npm/v/clincoud.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/clincoud" target="_blank"><img src="https://img.shields.io/npm/l/clincoud.svg" alt="Package License" /></a>
 
 # Clincoud
 
