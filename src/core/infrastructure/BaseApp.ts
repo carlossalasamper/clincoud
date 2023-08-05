@@ -1,13 +1,15 @@
 import express from "express";
+import Router from "express-promise-router";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { inject, injectable, multiInject } from "inversify";
 import { IInitializable, PortToken } from "../../common";
 import { ILogger, ILoggerToken } from "../domain/ILogger";
 import {
+  Controller,
   ControllerToken,
-  DecoratedController,
   DevelopmentErrorMiddleware,
+  Middleware,
   NotFoundMiddleware,
   ProductionErrorMiddleware,
 } from "../presentation";
@@ -16,6 +18,11 @@ import {
   IConfigRepository,
   IConfigRepositoryToken,
 } from "../domain";
+import getAllMetadata from "../../utils/getAllMetadata";
+import ControllerMetadata, {
+  controllerMetadataKeys,
+} from "../presentation/types/ControllerMetadata";
+import { container } from "../../ioc";
 
 @injectable()
 export default abstract class BaseApp implements IInitializable {
@@ -24,7 +31,7 @@ export default abstract class BaseApp implements IInitializable {
   @inject(IConfigRepositoryToken)
   private readonly configService!: IConfigRepository;
   @multiInject(ControllerToken)
-  private readonly controllers!: DecoratedController[];
+  private readonly controllers!: Controller[];
   @inject(NotFoundMiddleware)
   private readonly notFoundMiddleware!: NotFoundMiddleware;
   @inject(DevelopmentErrorMiddleware)
@@ -33,6 +40,7 @@ export default abstract class BaseApp implements IInitializable {
   private readonly productionErrorMiddleware!: ProductionErrorMiddleware;
 
   protected app: express.Application = express();
+  protected apiRouter = Router();
 
   public initialize(): void | Promise<void> {
     this.setup();
@@ -47,6 +55,7 @@ export default abstract class BaseApp implements IInitializable {
   abstract onInitialized(): void;
 
   private setup() {
+    // Global middlewares
     this.app.use(cors({ ...this.configService.config.security.cors }));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
@@ -67,24 +76,33 @@ export default abstract class BaseApp implements IInitializable {
 
     // API
     this.controllers.forEach((controller) => {
+      const metadata = getAllMetadata<ControllerMetadata>(
+        controller,
+        controllerMetadataKeys
+      );
+      const middlewares = metadata.middlewares.map((middleware) =>
+        container.get<Middleware>(middleware)
+      );
+      const lateMiddlewares = metadata.lateMiddlewares.map((middleware) =>
+        container.get<Middleware>(middleware)
+      );
       const apiConfig = this.configService.config.api[
-        controller.api
+        metadata.api
       ] as AppApiConfig;
 
-      this.app[controller.method](
-        `/v1${apiConfig.path}${controller.path}`,
-        ...controller.middlewares.map((middleware) =>
-          middleware.handler.bind(middleware)
-        ),
-        controller.handler,
-        ...controller.lateMiddlewares.map((middleware) =>
+      this.apiRouter[metadata.method](
+        `/v1${apiConfig.path}${metadata.path}`,
+        ...middlewares.map((middleware) => middleware.handler.bind(middleware)),
+        controller.handler.bind(controller),
+        ...lateMiddlewares.map((middleware) =>
           middleware.handler.bind(middleware)
         )
       );
     });
-
-    // Error handling
+    this.app.use(this.apiRouter);
     this.app.use(this.notFoundMiddleware.handler.bind(this.notFoundMiddleware));
+
+    // Error handler
     this.app.use(
       process.env.NODE_ENV === "production"
         ? this.productionErrorMiddleware.execute.bind(

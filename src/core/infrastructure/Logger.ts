@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-
+import clc from "cli-color";
 import { injectable } from "inversify";
 import { ILogger } from "../domain/ILogger";
 
@@ -16,16 +16,24 @@ export default class Logger implements ILogger {
     this._prefix = value;
   }
 
+  success(...messages: any[]) {
+    const color = clc.greenBright;
+    console.log(this.concat([clc.bold(this.prefix), color(...messages)]));
+  }
+
   info(...messages: any[]) {
-    console.log(this.concat([this.prefix, ...messages]));
+    const color = clc.blue;
+    console.log(this.concat([clc.bold(this.prefix), color(...messages)]));
   }
 
   error(...messages: any[]) {
-    console.error(this.concat([this.prefix, ...messages]));
+    const color = clc.red.bold;
+    console.error(this.concat([clc.bold(this.prefix), color(...messages)]));
   }
 
   warn(...messages: any[]) {
-    console.warn(this.concat([this.prefix, ...messages]));
+    const color = clc.yellow;
+    console.warn(this.concat([clc.bold(this.prefix), color(...messages)]));
   }
 
   private concat(values: string | string[], separator = " ") {

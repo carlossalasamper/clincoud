@@ -14,12 +14,12 @@ import {
   DevelopmentErrorMiddleware,
   NotFoundMiddleware,
   ProductionErrorMiddleware,
-  RequestValidator,
+  Validator,
 } from "./presentation";
 
 container.bind<ILogger>(ILoggerToken).to(Logger);
 
-container.bind(RequestValidator).toSelf().inSingletonScope();
+container.bind(Validator).toSelf().inSingletonScope();
 
 container
   .bind<IDatabaseService>(IDatabaseServiceToken)

@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
 import {
   AppApiConfig,
   AppConfig,
   AppConfigToken,
   Controller,
-  ControllerConfig,
+  ControllerMetadata,
   ControllerToken,
+  ILogger,
+  ILoggerToken,
 } from "../core";
+import { controllerMetadataKeys } from "../core/presentation/types/ControllerMetadata";
+import getAllMetadata from "../utils/getAllMetadata";
 import container from "./container";
 
 const registerControllers = (
@@ -15,18 +18,25 @@ const registerControllers = (
     new (...args: any[]): Controller;
   }[]
 ) => {
-  controllerClasses.forEach((controller) => {
-    const { config } = controller as unknown as { config: ControllerConfig };
-    const appConfig = container.get<AppConfig>(AppConfigToken);
-    const apiConfig = appConfig.api[config.api] as AppApiConfig;
+  const appConfig = container.get<AppConfig>(AppConfigToken);
+  const logger = container.get<ILogger>(ILoggerToken);
 
-    console.log(
-      `Controller registered: ${config.method} ${apiConfig.path}${config.path}`
+  logger.prefix = "@controller";
+
+  controllerClasses.forEach((controllerClass) => {
+    const metadata = getAllMetadata<ControllerMetadata>(
+      controllerClass.prototype,
+      controllerMetadataKeys
+    );
+    const apiConfig = appConfig.api[metadata.api] as AppApiConfig;
+
+    logger.success(
+      `${metadata.method.toUpperCase()} ${apiConfig.path}${metadata.path}`
     );
 
     container
       .bind<Controller>(ControllerToken)
-      .to(controller)
+      .to(controllerClass)
       .inSingletonScope();
   });
 };

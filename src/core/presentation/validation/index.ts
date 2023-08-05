@@ -1,3 +1,3 @@
-import RequestValidator from "./RequestValidator";
+import Validator from "./Validator";
 
-export { RequestValidator };
+export { Validator };

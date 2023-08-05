@@ -1,19 +1,37 @@
-# GAMESMAYER Express Kit
+<a href="#" target="_blank"><img src="https://img.shields.io/npm/v/clicoud.svg" alt="NPM Version" /></a>
+<a href="#" target="_blank"><img src="https://img.shields.io/npm/l/clincoud.svg" alt="Package License" /></a>
+
+# Clincoud
 
 <p align="center">
-  <img src="./assets/images/gamesmayer-logo.png?raw=true" style="max-width: 900px; width: 100%;" />
+  <img src="https://raw.githubusercontent.com/carlossalasamper/clincoud/master/assets/images/logo.png" style="max-width: 900px; width: 100%;" />
 </p>
-<p align="center" style="margin-top: 10px;">GAMESMAYER Express kit to develop robust applications at the speed of light.</p>
+<p align="center" style="margin-top: 10px;">The Node.js framework that encourages you to create a clean, layered architecture.</p>
 
-## Setup
+## Getting Started
 
-In order to install the private dependencies of the project, create .npmrc file in root with the following content:
+// TODO
 
-```
-@gamesmayer:registry=https://npm.pkg.github.com/
-//npm.pkg.github.com/:_authToken=${NPM_TOKEN}
-```
+## Architecture
+
+// TODO
 
 ## Documentation
 
 // TODO
+
+## Support the Project
+
+<p align="center">☕️ Buy me a coffee so the open source party never ends.</p>
+
+<p align="center"><a href="https://www.buymeacoffee.com/carlossala95" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a></p>
+
+<p align="center">
+  <a href="https://www.youtube.com/channel/UCC-EUKPStBfQ1nEIvSl6bAQ" target="_blank">YouTube</a> |
+  <a href="https://instagram.com/carlossalasamper" target="_blank">Instagram</a> |
+  <a href="https://twitter.com/carlossala95" target="_blank">Twitter</a> |
+  <a href="https://facebook.com/carlossala95" target="_blank">Facebook</a>
+</p>
+<p align="center">
+  <a href="https://godofprogramming.com" target="_blank">godofprogramming.com</a>
+</p>

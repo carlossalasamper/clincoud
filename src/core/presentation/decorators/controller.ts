@@ -1,34 +1,45 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { injectable } from "inversify";
-import ControllerConfig from "../types/ControllerConfig";
+import ControllerMetadata, {
+  ControllerMetadataArgs,
+} from "../types/ControllerMetadata";
 import { Controller } from "../types";
+import InjectableType, {
+  InjectableTypeKey,
+} from "../../../ioc/types/InjectableType";
+import { Constructor } from "../../../common";
 
-export default function controller({ method, api, path }: ControllerConfig) {
-  return <
-    T extends {
-      new (...args: any[]): {
-        handler: Controller["handler"];
-        middlewares: Controller["middlewares"];
-        lateMiddlewares: Controller["lateMiddlewares"];
-      };
-    }
-  >(
-    constructor: T
-  ) => {
-    const config = {
+export default function controller({
+  method,
+  api,
+  path = "",
+  middlewares = [],
+  lateMiddlewares = [],
+}: ControllerMetadataArgs) {
+  return (target: Constructor<Controller>) => {
+    const metadata = {
       method: method.toLowerCase(),
       api,
-      path: path || "",
-    };
-    injectable()(constructor);
+      path,
+      middlewares,
+      lateMiddlewares,
+    } as ControllerMetadata;
 
-    return class extends constructor {
-      static controllerName = constructor.name;
-      static config = config;
+    injectable()(target);
 
-      method = config.method;
-      api = config.api;
-      path = config.path;
-    };
+    for (const key in metadata) {
+      if (metadata.hasOwnProperty(key)) {
+        Reflect.defineMetadata(
+          key,
+          metadata[key as keyof ControllerMetadata],
+          target.prototype
+        );
+      }
+    }
+
+    Reflect.defineMetadata(
+      InjectableTypeKey,
+      InjectableType.Controller,
+      target.prototype
+    );
   };
 }

@@ -15,7 +15,8 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "declaration": true
+    "declaration": true,
+    "plugins": [{ "transform": "ts-transformer-keys/transformer" }]
   },
   "include": ["**/*.ts"]
 }

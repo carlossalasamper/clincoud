@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodSchema } from "zod";
 
 type RequestValidation<
-  TParams = Record<string, never>,
-  TQuery = Record<string, never>,
-  TBody = Record<string, never>
+  TParams = Record<string, any>,
+  TQuery = Record<string, any>,
+  TBody = Record<string, any>
 > = {
   params?: ZodSchema<TParams>;
   query?: ZodSchema<TQuery>;
