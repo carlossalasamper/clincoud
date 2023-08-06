@@ -2,7 +2,7 @@ import express from "express";
 import Router from "express-promise-router";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import { inject, injectable, multiInject } from "inversify";
+import { inject, injectable, multiInject, optional } from "inversify";
 import { IInitializable, PortToken } from "../../common";
 import { ILogger, ILoggerToken } from "../domain/ILogger";
 import {
@@ -31,6 +31,7 @@ export default abstract class BaseApp implements IInitializable {
   @inject(IConfigRepositoryToken)
   private readonly configService!: IConfigRepository;
   @multiInject(ControllerToken)
+  @optional()
   private readonly controllers!: Controller[];
   @inject(NotFoundMiddleware)
   private readonly notFoundMiddleware!: NotFoundMiddleware;

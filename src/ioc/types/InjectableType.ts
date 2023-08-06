@@ -1,4 +1,5 @@
 enum InjectableType {
+  Module = "module",
   Controller = "controller",
 }
 

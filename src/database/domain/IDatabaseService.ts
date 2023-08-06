@@ -1,6 +1,6 @@
-export const IDatabaseServiceToken = Symbol("IDatabaseService");
+export const IDatabaseServiceToken = Symbol.for("IDatabaseService");
 
-export const DatabaseUriToken = Symbol("DatabaseUri");
+export const DatabaseUriToken = Symbol.for("DatabaseUri");
 
 export default interface IDatabaseService {
   connect(): Promise<void>;

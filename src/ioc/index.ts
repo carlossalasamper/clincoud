@@ -1,4 +1,6 @@
 import container from "./container";
-import registerControllers from "./registerControllers";
+import registerModules from "./registerModules";
 
-export { container, registerControllers };
+export { container, registerModules };
+
+export * from "./decorators";
