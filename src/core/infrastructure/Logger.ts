@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import clc from "cli-color";
-import { injectable } from "inversify";
 import { ILogger } from "../domain/ILogger";
+import { injectable } from "inversify-sugar";
 
 @injectable()
 export default class Logger implements ILogger {
@@ -14,6 +14,11 @@ export default class Logger implements ILogger {
 
   public set prefix(value: string) {
     this._prefix = value;
+  }
+
+  alt(...messages: any[]) {
+    const color = clc.xterm(250);
+    console.log(this.concat([clc.bold(this.prefix), color(...messages)]));
   }
 
   success(...messages: any[]) {

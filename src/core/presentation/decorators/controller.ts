@@ -1,12 +1,8 @@
-import { injectable } from "inversify";
 import ControllerMetadata, {
   ControllerMetadataArgs,
 } from "../types/ControllerMetadata";
 import { Controller } from "../types";
-import InjectableType, {
-  InjectableTypeKey,
-} from "../../../ioc/types/InjectableType";
-import { Constructor } from "../../../common";
+import { Newable, injectable } from "inversify-sugar";
 
 export default function controller({
   method,
@@ -15,14 +11,15 @@ export default function controller({
   middlewares = [],
   lateMiddlewares = [],
 }: ControllerMetadataArgs) {
-  return (target: Constructor<Controller>) => {
-    const metadata = {
-      method: method.toLowerCase(),
+  return (target: Newable<Controller>) => {
+    const metadata: ControllerMetadata = {
+      method: method.toLowerCase() as ControllerMetadata["method"],
       api,
       path,
       middlewares,
       lateMiddlewares,
-    } as ControllerMetadata;
+      module: null,
+    };
 
     injectable()(target);
 
@@ -35,11 +32,5 @@ export default function controller({
         );
       }
     }
-
-    Reflect.defineMetadata(
-      InjectableTypeKey,
-      InjectableType.Controller,
-      target.prototype
-    );
   };
 }

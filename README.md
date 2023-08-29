@@ -25,6 +25,7 @@
   - [Controllers](#controllers)
   - [Middlewares](#middlewares)
 - [Support the Project](#support-the-project)
+- [License](#license)
 
 ## Introduction
 
@@ -84,7 +85,9 @@ This section is a tour to understand the main concepts of the framework.
 
 ### Modules
 
-// TODO
+Clincoud delegates the hierarchical dependency system to the `inversify-sugar` package, which offers a rather elegant agnostic API.
+
+See the [inversify-sugar documentation](https://github.com/carlossalasamper/inversify-sugar) documentation to learn more about this [Inversify](https://inversify.io/) framework.
 
 ### Controllers
 
@@ -109,3 +112,9 @@ This section is a tour to understand the main concepts of the framework.
 <p align="center">
   <a href="https://godofprogramming.com" target="_blank">godofprogramming.com</a>
 </p>
+
+## License
+
+The Clincoud source code is made available under the [MIT license](./LICENSE).
+
+Some of the dependencies are licensed differently, with the BSD license, for example.

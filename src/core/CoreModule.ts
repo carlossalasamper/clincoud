@@ -1,35 +1,35 @@
-import container from "../ioc/container";
-import {
-  IDatabaseService,
-  IDatabaseServiceToken,
-  MongooseDatabaseService,
-} from "../database";
-import IConfigRepository, {
-  IConfigRepositoryToken,
-} from "./domain/IConfigRepository";
-import { ILogger, ILoggerToken } from "./domain/ILogger";
+import { ILoggerToken } from "./domain";
+import { IConfigRepositoryToken } from "./domain/IConfigRepository";
 import { Logger } from "./infrastructure";
 import LocalConfigRepository from "./infrastructure/LocalConfigRepository";
 import {
   DevelopmentErrorMiddleware,
   NotFoundMiddleware,
   ProductionErrorMiddleware,
-  Validator,
 } from "./presentation";
+import { module } from "inversify-sugar";
 
-container.bind<ILogger>(ILoggerToken).to(Logger);
-
-container.bind(Validator).toSelf().inSingletonScope();
-
-container
-  .bind<IDatabaseService>(IDatabaseServiceToken)
-  .to(MongooseDatabaseService)
-  .inRequestScope();
-container
-  .bind<IConfigRepository>(IConfigRepositoryToken)
-  .to(LocalConfigRepository)
-  .inSingletonScope();
-
-container.bind(NotFoundMiddleware).toSelf().inSingletonScope();
-container.bind(DevelopmentErrorMiddleware).toSelf().inSingletonScope();
-container.bind(ProductionErrorMiddleware).toSelf().inSingletonScope();
+@module({
+  providers: [
+    {
+      provide: ILoggerToken,
+      useClass: Logger,
+      scope: "Transient",
+      isGlobal: true,
+    },
+    {
+      provide: IConfigRepositoryToken,
+      useClass: LocalConfigRepository,
+      isGlobal: true,
+    },
+    NotFoundMiddleware,
+    DevelopmentErrorMiddleware,
+    ProductionErrorMiddleware,
+  ],
+  exports: [
+    NotFoundMiddleware,
+    DevelopmentErrorMiddleware,
+    ProductionErrorMiddleware,
+  ],
+})
+export default class CoreModule {}

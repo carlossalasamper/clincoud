@@ -1,5 +1,5 @@
-import BaseApp from "./BaseApp";
+import BaseApp, { AppToken } from "./BaseApp";
 import Logger from "./Logger";
 
 export * from "./types";
-export { BaseApp, Logger };
+export { BaseApp, AppToken, Logger };

@@ -2,14 +2,13 @@ import express from "express";
 import Router from "express-promise-router";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import { inject, injectable, multiInject, optional } from "inversify";
+import { injectable, optional } from "inversify-sugar";
 import { IInitializable, PortToken } from "../../common";
 import { ILogger, ILoggerToken } from "../domain/ILogger";
 import {
   Controller,
   ControllerToken,
   DevelopmentErrorMiddleware,
-  Middleware,
   NotFoundMiddleware,
   ProductionErrorMiddleware,
 } from "../presentation";
@@ -18,36 +17,43 @@ import {
   IConfigRepository,
   IConfigRepositoryToken,
 } from "../domain";
-import getAllMetadata from "../../utils/getAllMetadata";
 import ControllerMetadata, {
   controllerMetadataKeys,
 } from "../presentation/types/ControllerMetadata";
-import { container } from "../../ioc";
+import { getModuleContainer, imported, provided } from "inversify-sugar";
+import getAllMetadata from "../../utils/getAllMetadata";
+import getMiddleware from "../../utils/getMiddleware";
+
+export const AppToken = Symbol("App");
 
 @injectable()
 export default abstract class BaseApp implements IInitializable {
-  @inject(PortToken) private readonly port!: string;
-  @inject(ILoggerToken) private readonly logger!: ILogger;
-  @inject(IConfigRepositoryToken)
+  @provided(PortToken) private readonly port!: string;
+  @provided(ILoggerToken) private readonly appLogger!: ILogger;
+  @provided(ILoggerToken) private readonly controllerLogger!: ILogger;
+  @provided(IConfigRepositoryToken)
   private readonly configService!: IConfigRepository;
-  @multiInject(ControllerToken)
+  @imported(ControllerToken)
   @optional()
   private readonly controllers!: Controller[];
-  @inject(NotFoundMiddleware)
+  @imported(NotFoundMiddleware)
   private readonly notFoundMiddleware!: NotFoundMiddleware;
-  @inject(DevelopmentErrorMiddleware)
+  @imported(DevelopmentErrorMiddleware)
   private readonly developmentErrorMiddleware!: DevelopmentErrorMiddleware;
-  @inject(ProductionErrorMiddleware)
+  @imported(ProductionErrorMiddleware)
   private readonly productionErrorMiddleware!: ProductionErrorMiddleware;
 
   protected app: express.Application = express();
   protected apiRouter = Router();
 
   public initialize(): void | Promise<void> {
+    this.appLogger.prefix = "App";
+    this.controllerLogger.prefix = "@controller";
+
     this.setup();
 
     this.app.listen(this.port, () => {
-      this.logger.info(`App running on port :${this.port}`);
+      this.appLogger.info(`App running on port :${this.port}`);
 
       this.onInitialized();
     });
@@ -81,11 +87,19 @@ export default abstract class BaseApp implements IInitializable {
         controller,
         controllerMetadataKeys
       );
+
+      if (!metadata.module) {
+        throw new Error(
+          `The controller ${controller.constructor.name} does not belong to any module.`
+        );
+      }
+
+      const controllerContainer = getModuleContainer(metadata.module);
       const middlewares = metadata.middlewares.map((middleware) =>
-        container.get<Middleware>(middleware)
+        getMiddleware(controllerContainer, middleware)
       );
       const lateMiddlewares = metadata.lateMiddlewares.map((middleware) =>
-        container.get<Middleware>(middleware)
+        getMiddleware(controllerContainer, middleware)
       );
       const apiConfig = this.configService.config.api[
         metadata.api
@@ -98,6 +112,10 @@ export default abstract class BaseApp implements IInitializable {
         ...lateMiddlewares.map((middleware) =>
           middleware.handler.bind(middleware)
         )
+      );
+
+      this.controllerLogger.success(
+        `${metadata.method.toUpperCase()} ${apiConfig.path}${metadata.path}`
       );
     });
     this.app.use(this.apiRouter);

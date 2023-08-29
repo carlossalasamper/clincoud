@@ -16,7 +16,7 @@ export interface AppApiConfig {
   path: string;
 }
 
-export const AppConfigToken = Symbol();
+export const AppConfigToken = Symbol("AppConfig");
 
 export default interface AppConfig {
   documentation: AppDocumentationConfig;

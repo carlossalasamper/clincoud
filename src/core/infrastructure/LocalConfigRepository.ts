@@ -1,10 +1,10 @@
 import IConfigRepository from "../domain/IConfigRepository";
 import AppConfig, { AppConfigToken } from "../domain/AppConfig";
-import { inject, injectable } from "inversify";
+import { injectable, provided } from "inversify-sugar";
 
 @injectable()
 class LocalConfigRepository implements IConfigRepository {
-  constructor(@inject(AppConfigToken) public readonly config: AppConfig) {}
+  constructor(@provided(AppConfigToken) public readonly config: AppConfig) {}
 }
 
 export default LocalConfigRepository;

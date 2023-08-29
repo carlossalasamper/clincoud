@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
-import { inject, injectable } from "inversify";
+import { injectable } from "inversify-sugar";
 import { DatabaseUriToken, IDatabaseService } from "../../domain";
 import { ILogger, ILoggerToken } from "../../../core/domain/ILogger";
+import { provided } from "inversify-sugar";
 
 @injectable()
 export default class MongooseDatabaseService implements IDatabaseService {
   constructor(
-    @inject(ILoggerToken) private readonly logger: ILogger,
-    @inject(DatabaseUriToken) private readonly databaseUri: string
+    @provided(ILoggerToken) private readonly logger: ILogger,
+    @provided(DatabaseUriToken) private readonly databaseUri: string
   ) {
     this.logger.prefix = MongooseDatabaseService.name;
   }

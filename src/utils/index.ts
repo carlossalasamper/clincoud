@@ -1,3 +1,4 @@
 import boot from "./boot";
+import provideControllers from "./provideControllers";
 
-export { boot };
+export { boot, provideControllers };

@@ -1,15 +1,26 @@
-import { Constructor } from "../common";
-import { BaseApp } from "../core";
-import { container, registerModules } from "../ioc";
+import {
+  Newable,
+  InversifySugar,
+  InversifySugarOptions,
+  getModuleContainer,
+} from "inversify-sugar";
+import { AppToken, BaseApp } from "../core";
 
-const boot = <AppType extends BaseApp>(
-  App: Constructor<AppType>,
-  AppModule: Constructor
+const boot = (
+  AppModule: Newable,
+  options: Partial<InversifySugarOptions> = {}
 ) => {
-  registerModules(AppModule, true);
+  Object.assign(
+    InversifySugar.options,
+    {
+      defaultScope: "Singleton",
+    },
+    options
+  );
 
-  container.bind(App).toSelf().inSingletonScope();
-  container.get(App).initialize();
+  InversifySugar.run(AppModule);
+
+  getModuleContainer(AppModule).getProvided<BaseApp>(AppToken).initialize();
 };
 
 export default boot;
