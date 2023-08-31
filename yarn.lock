@@ -1583,10 +1583,10 @@ ini@^1.3.4, ini@^1.3.5:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inversify-sugar@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/inversify-sugar/-/inversify-sugar-0.5.3.tgz#8059ae44d805624228b9bdadfb1a972abd8b0d2c"
-  integrity sha512-y+P6p8QPEeQtTd81pRZZkh09sJD2T3kWenJ/E46l4v5EpGmaeWpcT3KFwX+r9BUiEB2Nufb7n+TQEcdkPLIK0Q==
+inversify-sugar@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/inversify-sugar/-/inversify-sugar-0.5.4.tgz#c28db01a5e744ff2cb2fb3aba0751f39bc314148"
+  integrity sha512-Rxu3Eyh51hI9OUnoEpIrhXU1G+w2F45JHWVrQhFQXTh4WP5mb/A8bsq7f/8AqbcMbnJlwDV/wOhJ+iMS730gxw==
   dependencies:
     cli-color "^2.0.3"
     inversify "^6.0.1"

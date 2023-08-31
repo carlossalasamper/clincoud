@@ -1,4 +1,4 @@
 import boot from "./boot";
-import provideControllers from "./provideControllers";
+import createApiModule from "./createApiModule";
 
-export { boot, provideControllers };
+export { boot, createApiModule };
