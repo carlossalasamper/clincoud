@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { DynamicModule, module } from "inversify-sugar";
 import MongooseConnectionToken from "./MongooseConnectionToken";
 import mongoose from "mongoose";
@@ -16,10 +17,23 @@ export default class MongooseModule {
           provide: MongooseConnectionToken,
           useAsyncFactory: () => async () => {
             if (!mongoose.connection || mongoose.connection.readyState === 0) {
+              mongoose.connection.on("connected", () => {
+                console.log("[Mongoose] Connected.");
+              });
               await mongoose.connect(uri, options);
             }
 
             return mongoose.connection;
+          },
+          onDeactivation(injectable: () => Promise<mongoose.Connection>) {
+            return new Promise<void>((presolve) => {
+              injectable().then((connection) => {
+                connection.close().then(() => {
+                  console.log("[Mongoose] Connection closed.");
+                  presolve();
+                });
+              });
+            });
           },
           isGlobal: true,
         },

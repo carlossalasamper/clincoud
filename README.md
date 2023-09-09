@@ -81,7 +81,62 @@ This section is a tour to understand the main concepts of the framework.
 
 ### App
 
-// TODO
+The Clincoud application is where controllers are registered and lifecycle events are managed.
+
+Write your `App` extending `BaseApp` and add all the logic you need. A good example of use is to establish the connection to the database in the callback of the `initialized` event.
+
+```typescript
+import { BaseApp, MongooseConnectionToken } from "clincoud";
+import { imported, injectable, provided } from "inversify-sugar";
+import { Connection } from "mongoose";
+
+@injectable()
+export default class App extends BaseApp {
+  constructor(
+    @provided(MongooseConnectionToken)
+    private readonly mongooseConnectionProvider: () => Promise<Connection>
+  ) {
+    super();
+  }
+
+  public async onInitialized() {
+    await this.mongooseConnectionProvider();
+  }
+}
+```
+
+Then you have to bind the `App` class as a provider to the `AppModule` using the `AppToken` service identifier.
+
+```typescript
+import {
+  AppConfigToken,
+  PortToken,
+  CoreModule,
+  AppToken,
+  MongooseModule,
+} from "clincoud";
+import { module } from "inversify-sugar";
+import App from "./App";
+
+@module({
+  imports: [
+    CoreModule,
+    MongooseModule.forRoot({ uri: process.env.DATABASE_URI }),
+  ],
+  providers: [
+    {
+      provide: PortToken,
+      useValue: process.env.PORT,
+    },
+    { useClass: App, provide: AppToken },
+    {
+      provide: AppConfigToken,
+      useValue: appConfig,
+    },
+  ],
+})
+export class AppModule {}
+```
 
 ### Modules
 

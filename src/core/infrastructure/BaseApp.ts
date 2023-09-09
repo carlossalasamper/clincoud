@@ -23,13 +23,17 @@ import ControllerMetadata, {
 import { getModuleContainer, imported, provided } from "inversify-sugar";
 import getAllMetadata from "../../utils/getAllMetadata";
 import getMiddleware from "../../utils/getMiddleware";
+import AsyncExitHook from "async-exit-hook";
+import { InversifySugar } from "inversify-sugar";
+import Logger from "./Logger";
 
 export const AppToken = Symbol("App");
 
 @injectable()
 export default abstract class BaseApp implements IInitializable {
+  protected readonly appLogger = new Logger();
+
   @provided(PortToken) private readonly port!: string;
-  @provided(ILoggerToken) private readonly appLogger!: ILogger;
   @provided(ILoggerToken) private readonly controllerLogger!: ILogger;
   @provided(IConfigRepositoryToken)
   private readonly configService!: IConfigRepository;
@@ -44,6 +48,7 @@ export default abstract class BaseApp implements IInitializable {
   private readonly productionErrorMiddleware!: ProductionErrorMiddleware;
 
   protected app: express.Application = express();
+  protected server!: ReturnType<express.Application["listen"]>;
   protected apiRouter = Router();
 
   public initialize(): void | Promise<void> {
@@ -52,10 +57,26 @@ export default abstract class BaseApp implements IInitializable {
 
     this.setup();
 
-    this.app.listen(this.port, () => {
+    this.server = this.app.listen(this.port, () => {
       this.appLogger.info(`App running on port :${this.port}`);
 
       this.onInitialized();
+    });
+
+    AsyncExitHook((callback) => {
+      this.server.close(() => {
+        this.appLogger.info("Server closed.");
+
+        InversifySugar.reset().then(() => {
+          callback();
+          process.exit(0);
+        });
+      });
+
+      setTimeout(() => {
+        this.appLogger.error("Timeout. Forcing shutdown.");
+        process.exit(1);
+      }, 5000);
     });
   }
 
@@ -106,7 +127,7 @@ export default abstract class BaseApp implements IInitializable {
       ] as AppApiConfig;
 
       this.apiRouter[metadata.method](
-        `/v1${apiConfig.path}${metadata.path}`,
+        `${apiConfig.path}${metadata.path}`,
         ...middlewares.map((middleware) => middleware.handler.bind(middleware)),
         controller.handler.bind(controller),
         ...lateMiddlewares.map((middleware) =>
