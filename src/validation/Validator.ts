@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction } from "express";
+import { NextFunction, Request } from "express";
 import ErrorIssue from "../core/domain/ErrorIssue";
 import HttpError from "../core/domain/HttpError";
 import HttpStatusCode from "../core/domain/HttpStatusCode";
 import { ZodError, ZodSchema } from "zod";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { injectable } from "inversify-sugar";
-import { RequestValidation } from "../core/presentation/types";
+import { RequestValidation } from "./presentation";
+import ValidatedRequest from "./presentation/types/ValidatedRequest";
 
 @injectable()
 export default class Validator {
@@ -29,19 +30,43 @@ export default class Validator {
     (validation: RequestValidation) =>
     (req: Request, _res: Response, next: NextFunction) => {
       const errorIssues: Array<ErrorIssue> = [];
+      const validatedRequest = req as ValidatedRequest;
 
       if (validation.params) {
-        errorIssues.push(
-          ...this.validate(validation.params, req.params, ["params"])
-        );
+        const paramsErrors = this.validate(validation.params, req.params, [
+          "params",
+        ]);
+
+        errorIssues.push(...paramsErrors);
+
+        if (paramsErrors.length === 0) {
+          validatedRequest.validatedParams = req.params;
+        }
       }
       if (validation.query) {
-        errorIssues.push(
-          ...this.validate(validation.query, req.query, ["query"])
+        const queryErrors = this.validate(
+          validation.query,
+          validation.queryTransform
+            ? validation.queryTransform(req.query)
+            : req.query,
+          ["query"]
         );
+
+        errorIssues.push(...queryErrors);
+
+        if (queryErrors.length === 0) {
+          validatedRequest.validatedQuery =
+            validation.queryTransform?.(req.query) || req.query;
+        }
       }
       if (validation.body) {
-        errorIssues.push(...this.validate(validation.body, req.body, ["body"]));
+        const bodyErrors = this.validate(validation.body, req.body, ["body"]);
+
+        errorIssues.push(...bodyErrors);
+
+        if (bodyErrors.length === 0) {
+          validatedRequest.validatedBody = req.body;
+        }
       }
 
       if (errorIssues.length > 0) {

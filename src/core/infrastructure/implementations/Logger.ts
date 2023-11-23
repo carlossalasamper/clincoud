@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import clc from "cli-color";
-import { ILogger } from "../domain/ILogger";
+import { ILogger } from "../../domain/ILogger";
 import { injectable } from "inversify-sugar";
 
 @injectable()

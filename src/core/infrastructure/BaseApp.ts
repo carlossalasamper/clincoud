@@ -9,6 +9,7 @@ import {
   Controller,
   ControllerToken,
   DevelopmentErrorMiddleware,
+  Middleware,
   NotFoundMiddleware,
   ProductionErrorMiddleware,
 } from "../presentation";
@@ -25,7 +26,7 @@ import getAllMetadata from "../../utils/getAllMetadata";
 import getMiddleware from "../../utils/getMiddleware";
 import AsyncExitHook from "async-exit-hook";
 import { InversifySugar } from "inversify-sugar";
-import Logger from "./Logger";
+import Logger from "./implementations/Logger";
 
 export const AppToken = Symbol("App");
 
@@ -82,6 +83,14 @@ export default abstract class BaseApp implements IInitializable {
 
   abstract onInitialized(): void;
 
+  useMiddlewares(): Middleware[] {
+    return [];
+  }
+
+  useLateMiddlewares(): Middleware[] {
+    return [];
+  }
+
   private setup() {
     // Global middlewares
     this.app.use(cors({ ...this.configService.config.security.cors }));
@@ -101,6 +110,10 @@ export default abstract class BaseApp implements IInitializable {
       swaggerUi.serve,
       swaggerUi.setup(this.configService.config.documentation.swaggerDocument)
     );
+
+    this.useMiddlewares().forEach((middleware) => {
+      this.app.use(middleware.handler.bind(middleware));
+    });
 
     // API
     this.controllers.forEach((controller) => {
@@ -140,6 +153,11 @@ export default abstract class BaseApp implements IInitializable {
       );
     });
     this.app.use(this.apiRouter);
+
+    this.useLateMiddlewares().forEach((middleware) => {
+      this.app.use(middleware.handler.bind(middleware));
+    });
+
     this.app.use(this.notFoundMiddleware.handler.bind(this.notFoundMiddleware));
 
     // Error handler

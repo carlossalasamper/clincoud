@@ -1,5 +1,5 @@
-import IConfigRepository from "../domain/IConfigRepository";
-import AppConfig, { AppConfigToken } from "../domain/AppConfig";
+import IConfigRepository from "../../domain/IConfigRepository";
+import AppConfig, { AppConfigToken } from "../../domain/AppConfig";
 import { injectable, provided } from "inversify-sugar";
 
 @injectable()

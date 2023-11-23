@@ -1,10 +1,10 @@
 import { DynamicModule, Newable, NewableModule } from "inversify-sugar";
-import { Controller, ControllerToken } from "../core";
+import { AnyController, ControllerToken } from "../core";
 import { controllerModuleKey } from "../core/presentation/types/ControllerMetadata";
 
 export default function createApiModule(
   Module: NewableModule,
-  ...Controllers: Newable<Controller>[]
+  ...Controllers: Newable<AnyController>[]
 ): DynamicModule {
   Controllers.forEach((Controller) => {
     Reflect.defineMetadata(controllerModuleKey, Module, Controller.prototype);

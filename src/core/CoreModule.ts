@@ -1,7 +1,7 @@
 import { ILoggerToken } from "./domain";
 import { IConfigRepositoryToken } from "./domain/IConfigRepository";
 import { Logger } from "./infrastructure";
-import LocalConfigRepository from "./infrastructure/LocalConfigRepository";
+import LocalConfigRepository from "./infrastructure/implementations/LocalConfigRepository";
 import {
   DevelopmentErrorMiddleware,
   NotFoundMiddleware,

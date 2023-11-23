@@ -1,7 +1,7 @@
 import ControllerMetadata, {
   ControllerMetadataArgs,
 } from "../types/ControllerMetadata";
-import { Controller } from "../types";
+import { AnyController } from "../types";
 import { Newable, injectable } from "inversify-sugar";
 
 export default function controller({
@@ -11,7 +11,7 @@ export default function controller({
   middlewares = [],
   lateMiddlewares = [],
 }: ControllerMetadataArgs) {
-  return (target: Newable<Controller>) => {
+  return (target: Newable<AnyController>) => {
     const metadata: ControllerMetadata = {
       method: method.toLowerCase() as ControllerMetadata["method"],
       api,
