@@ -1,5 +1,12 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export default interface Middleware {
-  handler: RequestHandler;
+export default interface Middleware<
+  RequestType = Request,
+  ResponseType = Response
+> {
+  handler: (
+    req: RequestType,
+    res: ResponseType,
+    next: NextFunction
+  ) => Promise<void> | void;
 }
