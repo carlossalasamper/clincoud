@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { injectable } from "inversify";
 import { ErrorRequestHandler } from "express";
 import HttpError from "../../domain/HttpError";
 import ErrorMiddleware from "../types/ErrorMiddleware";
 import ErrorResponse from "../../domain/ErrorResponse";
+import { injectable } from "inversify-sugar";
 
 @injectable()
 export default class DevelopmentErrorMiddleware implements ErrorMiddleware {

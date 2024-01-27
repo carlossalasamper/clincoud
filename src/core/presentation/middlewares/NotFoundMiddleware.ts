@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { injectable } from "inversify-sugar";
 import Middleware from "../types/Middleware";
 import { NextFunction, Request, Response } from "express";
 import HttpError from "../../domain/HttpError";
